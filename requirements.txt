@@ -27,4 +27,5 @@ setproctitle==1.1.10
 simplejson==3.16.0
 skimage==0.0
 usercustomize==1.0.0
-wincertstore==0.2
+incertstore==0.2
+torch==1.1.0
