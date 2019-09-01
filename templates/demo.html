@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .submit_button {
+    style: background-color:#000000
+}
+
+* {
+  box-sizing: border-box;
+}
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.submit-button {
+  position: absolute;
+  border: 10px outset black;
+  background-color: silver;
+  padding: 15px;
+  background-clip: padding-box;
+  left: 100px;
+  top: 150px;
+}
+</style>
+
+<body>
+
+
+<div class="submit-button">
+    <p><b><font size ='10'>Upload an Image!</font> </b> </p>
+      <form action="/demo" method="post" enctype="multipart/form-data">
+          <p><input type="file" name="file"></p>
+          <p><button type="submit">Submit</button></p>
+    </form>
+    </div>
+</body>
+
+{% if image  and small_image and gif%}
+<div class="row">
+    <div class="column">
+        <p>Uploaded Image: </p> <img src="{{ image }}" style="width:310px;height:200px;">
+    </div>
+
+    <div class="column">
+        <p>Reduced Image (64 x 64): </p> <img src="{{ small_image }}" style="width:310px;height:200px;">
+    </div>
+
+    <div class="column">
+        <p>Output Gif (32 frames, 64 x 64): </p> <img src="{{ gif }}" style="width:310px;height:200px;">
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
