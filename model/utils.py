@@ -1,5 +1,3 @@
-import imageio as imageio
-import torch as torch
 import os
 
 from torch import nn
@@ -9,20 +7,33 @@ from keras.preprocessing import image
 import torch
 from skimage import img_as_ubyte
 import imageio
+import numpy as np
 
 
-
-def get_model():
+def get_model(filename=None):
     """
     :return: Video Generator Model
 
     """
-    PATH = 'model/pytorch/test_gen_15fps.pt'
-    generator = VideoGen()
-    generator.load_state_dict(torch.load(PATH, map_location='cpu'))
-    generator.eval()
+    models = []
 
-    return generator
+    if not isinstance(filename, list):
+        filename = [filename]
+
+    if len(filename) > 1:
+        for model_path in filename:
+            generator = VideoGen()
+            generator.load_state_dict(torch.load(model_path, map_location='cpu'))
+            generator.eval()
+            models.append(generator)
+    else:
+        model_path = filename[0]
+        generator = VideoGen()
+        generator.load_state_dict(torch.load(model_path, map_location='cpu'))
+        generator.eval()
+        models = generator
+
+    return models
 
 def model_output(model, filename):
 
@@ -40,8 +51,11 @@ def model_output(model, filename):
 def make_gif(images, filename):
     # Receives [3,32,64,64] tensor, and saves in gif format
 
-    x = images.permute(1, 2, 3, 0)
-    x = x.numpy()
+    if not isinstance(images, np.ndarray):
+        x = images.permute(1, 2, 3, 0)
+        x = x.numpy()
+    else:
+        x = images
     x = img_as_ubyte(x)
     frames = []
     for i in range(32):

@@ -2,9 +2,6 @@
 
 {% block content %}
 <style>
-    .submit_button {
-    style: background-color:#000000
-}
 
 * {
   box-sizing: border-box;
@@ -12,54 +9,118 @@
 .column {
   float: left;
   width: 33.33%;
-  padding: 5px;
+  padding: 2px;
 }
 
-
-/* Clearfix (clear floats) */
-.row::after {
+.example1::after {
   content: "";
   clear: both;
   display: table;
 }
 
 .submit-button {
-  position: absolute;
   border: 10px outset black;
   background-color: silver;
   padding: 15px;
   background-clip: padding-box;
   left: 100px;
   top: 150px;
+  margin-left:60px;
+  margin-top:60px;
+}
+
+.submit_button {
+style: background-color:#000000;
+padding:2px;
+}
+
+.OriginalVideo {
+margin:auto;
+width:50%;
 }
 </style>
 
 <body>
 
+<div class="w3-content" style="max-width:1000px;margin-top:10px;margin-bottom:1px">
 
-<div class="submit-button">
-    <p><b><font size ='10'>Upload an Image!</font> </b> </p>
+     <div class="a" style="max-width:1000px">
+<h1 align="center"> Notable Examples </h1>
+<div align="left"> Below are some of the best generated videos trained at different frames per second.</div>
+  </div>
+
+
+   <div class="OriginalVideo">
+    <p> Original Video</p> <img src='../static/images/vid0_real.gif' style="width:100%">
+</div>
+
+<div class="example1">
+    <div class="column">
+        <p>5 fps</p> <img src='../static/images/vid0_gen_5fps.png' style="width:100%">
+    </div>
+
+    <div class="column">
+        <p>10 fps: </p> <img src='../static/images/vid0_gen_10fps.png' style="width:100%">
+    </div>
+
+    <div class="column">
+        <p>32 fps </p> <img src='../static/images/vid0_gen_32fps.png' style="width:100%">
+    </div>
+
+</div>
+
+       <div class="OriginalVideo">
+    <p> Original Video</p> <img src='../static/images/vid1_real.gif' style="width:100%">
+</div>
+
+
+<div class="example1">
+    <div class="column">
+        <p>5 fps</p> <img src='../static/images/vid1_gen_5fps.png' style="width:100%">
+    </div>
+
+    <div class="column">
+        <p>10 fps: </p> <img src='../static/images/vid1_gen_10fps.png' style="width:100%">
+    </div>
+
+    <div class="column">
+        <p>32 fps </p> <img src='../static/images/vid1_gen_32fps.png' style="width:100%">
+    </div>
+
+</div>
+
+
+       <div class="OriginalVideo">
+    <p> Original Video</p> <img src='../static/images/vid2_real.gif' style="width:100%">
+</div>
+
+<div class="example1">
+    <div class="column">
+        <p>5 fps</p> <img src='../static/images/vid2_gen_5fps.png' style="width:100%">
+    </div>
+
+    <div class="column">
+        <p>10 fps: </p> <img src='../static/images/vid2_gen_10fps.png' style="width:100%">
+    </div>
+
+    <div class="column">
+        <p>32 fps </p> <img src='../static/images/vid2_gen_32fps.png' style="width:100%">
+    </div>
+
+</div>
+</div>
+
+<div class="submit-button" align="left" style="width:30%; height:25%">
+    <p><b><font size ='4'>Upload an Image!</font> </b> </p>
       <form action="/demo" method="post" enctype="multipart/form-data">
           <p><input type="file" name="file"></p>
           <p><button type="submit">Submit</button></p>
     </form>
-    </div>
-</body>
-
-{% if image  and small_image and gif%}
-<div class="row">
-    <div class="column">
-        <p>Uploaded Image: </p> <img src="{{ image }}" style="width:310px;height:200px;">
-    </div>
-
-    <div class="column">
-        <p>Reduced Image (64 x 64): </p> <img src="{{ small_image }}" style="width:310px;height:200px;">
-    </div>
-
-    <div class="column">
-        <p>Output Gif (32 frames, 64 x 64): </p> <img src="{{ gif }}" style="width:310px;height:200px;">
-    </div>
 </div>
+{% if image  and small_image and gif%}
+
 {% endif %}
 
 {% endblock %}
+</body>
+

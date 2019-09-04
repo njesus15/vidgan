@@ -10,7 +10,10 @@ vidgan/*
 fask/*
 videogan/*
 vgan/*
-
+*.gif
+*.png
+DS._store/
+.idea/
 # Distribution / packaging
 .Python
 build/

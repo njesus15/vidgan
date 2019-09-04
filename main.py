@@ -8,18 +8,25 @@ import os
 currentDirectory = os.getcwd()
 app = Flask(__name__)
 
+MODEL_PATH = './model/pytorch/sm_gen_5fps.pt'
 app.secret_key = 'gobears'
 app.config['SESSION_TYPE'] = 'filesystem'
 IMAGES = os.path.join('static', 'images')
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = IMAGES
-app.config['MODEL'] = get_model()
+app.config['MODEL'] = get_model(filename=MODEL_PATH)
 app.config['HAS_OUTPUT'] = False
 
 
 @app.route('/')
 def login():
-    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'homepage_header.jpg')
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'homepage_header.png')
+
+    if app.config['HAS_OUTPUT']:
+        for files in os.listdir(app.config['UPLOAD_FOLDER']):
+            if files.endswith('.jpg'):  # web static images are uploaded as .png
+                print(files)
+                os.remove(os.path.join(app.config['UPLOAD_FOLDER'], files))
     return render_template('home.html', user_image=full_filename)
 
 
@@ -36,7 +43,7 @@ def demo():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        if file: # Display, image, reduced image, and gif
+        if file:  # Display, image, reduced image, and gif
             # Change input boolean
             app.config['HAS_OUTPUT'] = True
             filename = secure_filename(file.filename)
@@ -60,11 +67,19 @@ def demo():
 
     return render_template('demo.html')
 
+
 @app.route('/demo/output', methods=['GET', 'POST'])
 def get_output():
     if request.method == 'GET':
         if app.config['HAS_OUTPUT']:
             return app.config['json_output']
+
+
+@app.route('/model', methods=['GET', 'POST'])
+def get_architecture():
+    if request.method == 'GET':
+        return render_template('architecture.html')
+
 
 if __name__ == "__main__":
     currentDirectory = os.getcwd()
