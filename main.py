@@ -8,7 +8,7 @@ import os
 currentDirectory = os.getcwd()
 app = Flask(__name__)
 
-MODEL_PATH = './model/pytorch/sm_gen_5fps.pt'
+MODEL_PATH = './model/pytorch/sm_gen_32fps.pt'
 app.secret_key = 'gobears'
 app.config['SESSION_TYPE'] = 'filesystem'
 IMAGES = os.path.join('static', 'images')
@@ -16,6 +16,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = IMAGES
 app.config['MODEL'] = get_model(filename=MODEL_PATH)
 app.config['HAS_OUTPUT'] = False
+app.config['UPLOAD_FILE'] = ''
 
 
 @app.route('/')
@@ -23,10 +24,7 @@ def login():
     full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'homepage_header.png')
 
     if app.config['HAS_OUTPUT']:
-        for files in os.listdir(app.config['UPLOAD_FOLDER']):
-            if files.endswith('.jpg'):  # web static images are uploaded as .png
-                print(files)
-                os.remove(os.path.join(app.config['UPLOAD_FOLDER'], files))
+        os.remove(os.path.join(app.config['UPLOAD_FILE']))
     return render_template('home.html', user_image=full_filename)
 
 
@@ -48,6 +46,7 @@ def demo():
             app.config['HAS_OUTPUT'] = True
             filename = secure_filename(file.filename)
             fullname = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            app.config['UPLOAD_FILE'] = fullname
             file.save(fullname)
             reduced_image, output = model_output(app.config['MODEL'], fullname)
 
