@@ -1,4 +1,5 @@
 ## vidgan
 
-This repository contains the web-based API for Video GAN. Although currently still in production, you can clone the repo in a virtual envrionement and install rquirements.txt. 
-Run python main.py and the app will be hosted in your local server, http:localhost:5000.
+This repository contains the web-based API for Video GAN. Although currently still in production, I have deployed a work in progress API. (Still trying to improve the model)
+
+visit: https://vgan10.appspot.com/demo
